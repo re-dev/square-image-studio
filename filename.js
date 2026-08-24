@@ -1,4 +1,4 @@
-// Concise export filename convention for Square Image Studio v0.2.3
+// Concise export filename convention for Square Image Studio v0.2.4
 const ratioNames = {
   '1:1': 'square',
   '4:5': 'portrait',
@@ -24,7 +24,9 @@ document.getElementById('downloadBtn').addEventListener('click', (e) => {
   const quality = Number(document.getElementById('quality').value) / 100;
   const ext = format === 'image/jpeg' ? 'jpg' : format === 'image/webp' ? 'webp' : 'png';
   const proportion = ratioNames[state.ratio] || state.ratio.replace(':', 'x');
-  const diagonal = state.rotation !== 0 ? '_diag' : '';
+  const normalizedRotation = ((state.rotation % 360) + 360) % 360;
+  const isRightAngle = normalizedRotation % 90 === 0;
+  const diagonal = isRightAngle ? '' : '_diag';
   const filename = `${state.fileName}_${w}x${h}_${proportion}${diagonal}.${ext}`;
 
   out.toBlob((blob) => {
