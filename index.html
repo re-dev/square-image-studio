@@ -44,6 +44,17 @@
         </div>
 
         <div class="control-group">
+          <label class="group-title">Position</label>
+          <div class="nudge-pad" role="group" aria-label="Nudge image position">
+            <button class="nudge-up" data-nudge-x="0" data-nudge-y="-10" aria-label="Nudge up">↑</button>
+            <button class="nudge-left" data-nudge-x="-10" data-nudge-y="0" aria-label="Nudge left">←</button>
+            <button class="nudge-right" data-nudge-x="10" data-nudge-y="0" aria-label="Nudge right">→</button>
+            <button class="nudge-down" data-nudge-x="0" data-nudge-y="10" aria-label="Nudge down">↓</button>
+          </div>
+          <p class="helper">Arrow keys nudge 10px. Shift + arrow nudges 1px.</p>
+        </div>
+
+        <div class="control-group">
           <div class="control-heading"><label for="padding">Padding</label><output id="paddingValue">8%</output></div>
           <input id="padding" type="range" min="0" max="35" value="8" step="1" />
           <label class="check-row"><input id="safeGuide" type="checkbox" checked /> Show padding guide</label>
@@ -133,7 +144,7 @@
     <footer class="app-footer" aria-label="Application version">
       <span>Square Image Studio</span>
       <span class="footer-separator">·</span>
-      <strong>v0.2.1</strong>
+      <strong>v0.2.2</strong>
       <span class="footer-separator">·</span>
       <span>Build 24 Aug 2026</span>
     </footer>
