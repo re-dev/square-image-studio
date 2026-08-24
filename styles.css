@@ -90,17 +90,8 @@ select { width: 100%; padding: 10px; color: #eeeef1; }
 
 .app-footer { display: flex; justify-content: center; align-items: center; gap: 7px; margin-top: 18px; color: #6f7582; font-size: 11px; letter-spacing: .01em; }
 .app-footer strong { color: #9ca2ae; font-weight: 700; }
-.app-footer a {
-  color: inherit;
-  transition: 250ms;
-}
-.app-footer a:hover {
-  color: white;
-  text-decoration: none;
-}
-.app-footer a:hover:before {
-  content: "// ";
-  letter-spacing: -1px;
-  color: #C00;
-}
+.app-footer a { color: inherit; transition: 250ms; }
+.app-footer a:hover { color: white; text-decoration: none; }
+.app-footer a:hover:before { content: "// "; letter-spacing: -1px; color: #C00; }
+.app-footer a:before { content: "// "; letter-spacing: -1px; }
 .footer-separator { color: #444953; }
