@@ -30,6 +30,12 @@ button.active { background: #f1f1f2; color: #111216; border-color: #f1f1f2; }
 .button-row.five { grid-template-columns: repeat(5,1fr); }
 .segmented.four { grid-template-columns: repeat(4,1fr); }
 .rotation-buttons button { padding-inline: 5px; font-size: 11px; }
+.nudge-pad { display: grid; grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(2, 36px); gap: 6px; justify-content: center; }
+.nudge-pad button { padding: 0; font-size: 17px; line-height: 1; }
+.nudge-up { grid-column: 2; grid-row: 1; }
+.nudge-left { grid-column: 1; grid-row: 2; }
+.nudge-down { grid-column: 2; grid-row: 2; }
+.nudge-right { grid-column: 3; grid-row: 2; }
 .segmented button { font-size: 12px; }
 .helper { color: #747a87; font-size: 11px; line-height: 1.45; margin: 8px 0 0; }
 .centered { text-align: center; }
