@@ -4,20 +4,58 @@
   const zoom = document.getElementById('zoom');
   const zoomValue = document.getElementById('zoomValue');
   const centreGuide = document.getElementById('centreGuide');
+  const fitButton = document.getElementById('zoomFit');
+  const fillButton = document.getElementById('zoomFill');
+
+  function setZoom(next) {
+    const clamped = Math.min(5, Math.max(.25, next));
+    state.zoom = clamped;
+    const pct = Math.round(clamped * 100);
+    zoom.value = pct;
+    zoomValue.textContent = `${pct}%`;
+    render();
+  }
 
   // Allow mouse-wheel zoom up to 500% instead of the original 300% cap.
   canvas.addEventListener('wheel', (e) => {
     if (!state.image) return;
     e.preventDefault();
     e.stopImmediatePropagation();
-
-    const next = Math.min(5, Math.max(.25, state.zoom * (e.deltaY < 0 ? 1.05 : .95)));
-    state.zoom = next;
-    const pct = Math.round(next * 100);
-    zoom.value = pct;
-    zoomValue.textContent = `${pct}%`;
-    render();
+    setZoom(state.zoom * (e.deltaY < 0 ? 1.05 : .95));
   }, { passive: false, capture: true });
+
+  // Fit keeps the complete image inside the current padded working area.
+  fitButton?.addEventListener('click', () => {
+    if (!state.image) return;
+    state.offsetX = 0;
+    state.offsetY = 0;
+    setZoom(1);
+  });
+
+  // Fill scales the image so the complete canvas is covered, centred in the frame.
+  fillButton?.addEventListener('click', () => {
+    if (!state.image) return;
+
+    const width = canvas.width;
+    const height = canvas.height;
+    const theta = Math.abs(state.rotation) * Math.PI / 180;
+    const c = Math.abs(Math.cos(theta));
+    const s = Math.abs(Math.sin(theta));
+
+    // Exact scale required for the rotated image rectangle to cover all canvas corners.
+    const requiredScale = Math.max(
+      (width * c + height * s) / state.image.width,
+      (width * s + height * c) / state.image.height
+    );
+
+    const baseScale = state.autoFit
+      ? containScale(state.image, width, height, state.padding, state.rotation)
+      : containScale(state.image, width, height, state.padding, 0);
+
+    state.offsetX = 0;
+    state.offsetY = 0;
+    setZoom(requiredScale / baseScale);
+  });
 
   // Wrap preview rendering to add horizontal and vertical centre guides.
   const originalRenderTo = renderTo;
@@ -33,7 +71,7 @@
     c.save();
     c.setLineDash([10, 8]);
     c.lineWidth = Math.max(1, width / 700);
-    c.strokeStyle = '#00e5ff';
+    c.strokeStyle = '#ff00ff';
 
     c.beginPath();
     c.moveTo(width / 2, 0);
