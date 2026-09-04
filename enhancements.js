@@ -16,6 +16,13 @@
     render();
   }
 
+  function currentBaseScale() {
+    if (!state.image) return 1;
+    return state.autoFit
+      ? containScale(state.image, canvas.width, canvas.height, state.padding, state.rotation)
+      : containScale(state.image, canvas.width, canvas.height, state.padding, 0);
+  }
+
   // Allow mouse-wheel zoom up to 500% instead of the original 300% cap.
   canvas.addEventListener('wheel', (e) => {
     if (!state.image) return;
@@ -27,9 +34,17 @@
   // Fit keeps the complete image inside the current padded working area.
   fitButton?.addEventListener('click', () => {
     if (!state.image) return;
+    const desiredScale = containScale(
+      state.image,
+      canvas.width,
+      canvas.height,
+      state.padding,
+      state.rotation
+    );
+    const baseScale = currentBaseScale();
     state.offsetX = 0;
     state.offsetY = 0;
-    setZoom(1);
+    setZoom(desiredScale / baseScale);
   });
 
   // Fill scales the image so the complete canvas is covered, centred in the frame.
@@ -48,10 +63,7 @@
       (width * s + height * c) / state.image.height
     );
 
-    const baseScale = state.autoFit
-      ? containScale(state.image, width, height, state.padding, state.rotation)
-      : containScale(state.image, width, height, state.padding, 0);
-
+    const baseScale = currentBaseScale();
     state.offsetX = 0;
     state.offsetY = 0;
     setZoom(requiredScale / baseScale);
