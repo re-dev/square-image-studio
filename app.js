@@ -158,6 +158,14 @@ function resetTransform() {
 
 $('#fileInput').addEventListener('change', (e) => loadFile(e.target.files[0]));
 
+// When the workspace is empty, clicking anywhere in the central drop area
+// opens the same file picker as the Choose image button.
+dropZone.addEventListener('click', (e) => {
+  if (state.image) return;
+  if (e.target.closest('button, a, input, select, label')) return;
+  $('#fileInput').click();
+});
+
 dropZone.addEventListener('dragover', (e) => { e.preventDefault(); $('#stage').classList.add('dragging'); });
 dropZone.addEventListener('dragleave', () => $('#stage').classList.remove('dragging'));
 dropZone.addEventListener('drop', (e) => {
