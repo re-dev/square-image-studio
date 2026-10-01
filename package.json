@@ -1,0 +1,8 @@
+{
+  "name": "square-image-studio",
+  "private": true,
+  "dependencies": {
+    "@netlify/blobs": "latest",
+    "@netlify/functions": "latest"
+  }
+}
